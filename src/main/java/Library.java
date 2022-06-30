@@ -14,8 +14,7 @@ class Library {
     public static void addBook(Book book) {
 
         try {
-
-            if(books.containsKey(book.title)) {
+            if (books.containsKey(book.title)) {
                 System.out.println("Book Already Exists");
                 return;
             } else {
@@ -24,17 +23,14 @@ class Library {
             }
         
             List<Book> booklist = new ArrayList<Book>(); 
-    
-            if (booksGenre.get(book.genre) != null) { // if genre of added book already exist in the booksGenre, maintain the booklist
-                booklist = booksGenre.get(book.genre);
-            } else { // if the genre of the added book is new, then add the book to booklist and its genre and Book object into booksGenre, respectively 
+            if (!booksGenre.containsKey(book.genre)) {  // if bookGenre has never seen the genre from added book, add it accordingly
                 booklist.add(book); // ArrayList data type used add() to add element - here, book is a Book object
                 booksGenre.put(book.genre, booklist); // Map data type used put() to add element - here, book.genre = String; booklist = List<Book>;
             }
-    
+
             System.out.println("Added Book: " + book);
             System.out.println("Repository: " + books);
-
+            System.out.println("=============================");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,11 +48,10 @@ class Library {
  
     // getter method that returns genre of the book
     public static void getGenre(String genre) {
-        if (booksGenre.get(genre) != null) {
-            for ( Map.Entry<String, List<Book>> genreName : booksGenre.entrySet() ) 
-                System.out.println("Library has at least one book of the following genre you are looking for: " + genreName.getValue());
+        if (booksGenre.containsKey(genre)) {
+            System.out.println("A book is found based on the genre specified: " + booksGenre.get(genre));
         } else {
-            System.err.println("Based on genre you entered, book you are looking for does not exist");
+            System.err.println("Based on genre entered, book does not exist");
         }
     }
 
